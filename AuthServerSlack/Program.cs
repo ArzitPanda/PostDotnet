@@ -6,6 +6,7 @@ using SlackApi.Services.PostService;
 using SlackApi.Services.RelationRequestService;
 using SlackApi.Services.UserService;
 using SlackApi;
+using SlackApi.Services.RelationService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,8 @@ builder.Services.AddScoped<ICredRepository, CredRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IRelationRequestService, RelationRequestService>();
+builder.Services.AddScoped<IRelationalRepository, RelationalRepository>();
+builder.Services.AddScoped<IRelationService, RelationService>();
 builder.Services.AddDbContext<SlackDbContext>((options) => {
 
 

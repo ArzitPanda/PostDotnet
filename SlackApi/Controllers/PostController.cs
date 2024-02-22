@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SlackApi.Data.Dto.RequestDto;
 using SlackApi.Data.Model;
 using SlackApi.Services.PostService;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace SlackApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class PostController : ControllerBase

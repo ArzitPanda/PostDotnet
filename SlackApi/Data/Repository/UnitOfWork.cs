@@ -11,12 +11,13 @@ namespace SlackApi.Data.Repository
         public IPostRepository PostRepository { get; }
         public IRelationRequestRepository RelationRequestRepository { get; }
 
+        public IRelationalRepository RelationRepository { get; }
         public  ICredRepository CredentialRepository { get; }
 
         
 
         public UnitOfWork(SlackDbContext context, IUserRepository userRepository, IPostRepository postRepository, IRelationRequestRepository relationRequestRepository,
-            ICredRepository credRepository
+            ICredRepository credRepository,IRelationalRepository relationalRepository
             
             )
         {
@@ -25,6 +26,7 @@ namespace SlackApi.Data.Repository
             PostRepository = postRepository ?? throw new ArgumentNullException(nameof(postRepository));
             RelationRequestRepository = relationRequestRepository ?? throw new ArgumentNullException(nameof(relationRequestRepository));
             CredentialRepository = credRepository ?? throw new ArgumentNullException(nameof(CredentialRepository));
+            RelationRepository = relationalRepository ?? throw new ArgumentNullException(nameof(RelationRepository));
         }
 
         public async Task<int> SaveChangesAsync()

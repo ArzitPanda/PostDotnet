@@ -11,6 +11,8 @@ namespace SlackApi.Data.Repository
 
         ICredRepository CredentialRepository { get;}
 
+        IRelationalRepository RelationRepository { get; }
+
         Task<int> SaveChangesAsync();
     }
 }

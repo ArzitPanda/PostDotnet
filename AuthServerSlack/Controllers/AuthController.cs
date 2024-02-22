@@ -1,5 +1,7 @@
 ﻿using AuthServerSlack.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SlackApi.Data;
 using SlackApi.Data.Model;
 using SlackApi.Data.Repository;
 using SlackApi.Utils;
@@ -12,13 +14,15 @@ namespace AuthServerSlack.Controllers
     {
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly SlackDbContext _context;
 
 
 
-        public AuthController(IUnitOfWork unitOfWork)
+        public AuthController(IUnitOfWork unitOfWork,SlackDbContext dbContext)
         {
             
             _unitOfWork = unitOfWork;
+            _context = dbContext;
         }
 
         public IActionResult Login()
@@ -43,7 +47,11 @@ namespace AuthServerSlack.Controllers
             {
 
                 DataEncryptor keyGen = new DataEncryptor();
+
                 string a  = keyGen.EncryptData(user.UserName);
+
+               
+
 
 
                 return Redirect($"http://localhost:5283/api/Auth/callBack?code={a}");
@@ -73,6 +81,10 @@ namespace AuthServerSlack.Controllers
 
 
             GenerateJwtResponse g = new GenerateJwtResponse { ClientId=clientID,token=GenerateTokenIs};
+
+              
+
+
 
 
             return Ok(g);
