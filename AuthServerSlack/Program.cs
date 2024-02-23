@@ -7,6 +7,7 @@ using SlackApi.Services.RelationRequestService;
 using SlackApi.Services.UserService;
 using SlackApi;
 using SlackApi.Services.RelationService;
+using SlackApi.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,16 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IRelationRequestService, RelationRequestService>();
 builder.Services.AddScoped<IRelationalRepository, RelationalRepository>();
 builder.Services.AddScoped<IRelationService, RelationService>();
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<ImageUploadUtils>(provider =>
+{
+    var accessor = provider.GetRequiredService<IHttpContextAccessor>();
+    var request = accessor.HttpContext.Request;
+    var baseUrl = $"{request.Scheme}://{request.Host}";
+    return new ImageUploadUtils(baseUrl);
+});
+
 builder.Services.AddDbContext<SlackDbContext>((options) => {
 
 

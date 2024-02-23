@@ -12,6 +12,7 @@ using SlackApi.Services.PostService;
 using SlackApi.Services.RelationRequestService;
 using SlackApi.Services.RelationService;
 using SlackApi.Services.UserService;
+using SlackApi.Utils;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
@@ -65,6 +66,15 @@ builder.Services.AddAuthentication((options) =>
 
 });
 
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<ImageUploadUtils>(provider =>
+{
+    var accessor = provider.GetRequiredService<IHttpContextAccessor>();
+    var request = accessor.HttpContext.Request;
+    var baseUrl = $"{request.Scheme}://{request.Host}";
+    return new ImageUploadUtils(baseUrl);
+});
 builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddScoped<IUserService,UserService>();
 builder.Services.AddScoped<IPostRepository,PostRepository>();
@@ -100,7 +110,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseStaticFiles(
+    
+    
+    );
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

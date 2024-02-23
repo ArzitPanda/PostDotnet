@@ -10,10 +10,13 @@ namespace SlackApi.Services.AuthService
 
 
         private readonly IUnitOfWork _unitOfWork;
-        public AuthService(IUnitOfWork unitOfWork)
+        private readonly ImageUploadUtils _imageUploadUtils;
+        public AuthService(IUnitOfWork unitOfWork, ImageUploadUtils imageUploadUtils)
         {
             _unitOfWork = unitOfWork;
-            
+
+            _imageUploadUtils = imageUploadUtils;
+
         }
 
 
@@ -21,11 +24,18 @@ namespace SlackApi.Services.AuthService
         public async Task<User> SignUp(UserAuthDto auth)
         {
 
+
+          
+            // Upload the image and get the file path
+            string photoUrl = _imageUploadUtils.UploadImage(auth.Photo);
+          
+      
+
             //first step create the user
             User user = new User
             {
                 DateOfBirth = auth.DateOfBirth,
-                PhotoUrl = auth.PhotoUrl,
+                PhotoUrl = photoUrl,
                 UserEmail = auth.UserEmail,
                 UserName = auth.UserName,
                 UserPhone = auth.UserPhone,
@@ -48,5 +58,8 @@ namespace SlackApi.Services.AuthService
 
            
         }
+
+
+      
     }
 }

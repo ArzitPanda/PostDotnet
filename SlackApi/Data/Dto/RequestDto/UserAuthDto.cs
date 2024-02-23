@@ -9,7 +9,10 @@
         public string UserEmail { get; set; } = string.Empty;
         public string UserPhone { get; set; } = string.Empty;
 
-        public string PhotoUrl { get; set; } = string.Empty;
+  
+
+        public IFormFile Photo { get; set; }
+      
 
         public DateTime DateOfBirth { get; set; }
 

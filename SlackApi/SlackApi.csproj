@@ -21,4 +21,13 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\profile\cf82de20-724a-481d-87fc-102f6054dbcb.png" />
+    <None Include="wwwroot\profile\e13f1490-4a75-4ce5-8b6a-e59c20cbd112.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="uploads\" />
+  </ItemGroup>
+
 </Project>
