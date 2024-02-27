@@ -10,7 +10,7 @@
     {
         public class GenericRepository<T> : IGenericRepository<T> where T : class
         {
-            private readonly SlackDbContext _dbContext;
+            public readonly SlackDbContext _dbContext;
             private readonly DbSet<T> _dbSet;
 
             public GenericRepository(SlackDbContext dbContext)

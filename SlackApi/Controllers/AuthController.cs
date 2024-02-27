@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SlackApi.Data.Dto.RequestDto;
 using SlackApi.Data.Model;
 using SlackApi.Services.AuthService;
@@ -80,7 +81,11 @@ namespace SlackApi.Controllers
                 {
                     // Read the response content
                     string responseBody = await response.Content.ReadAsStringAsync();
-                    return Ok(responseBody);
+                    var responseObject = JsonConvert.DeserializeObject<dynamic>(responseBody);
+                  Console.WriteLine(responseBody);
+                    var token = responseObject?.token;
+                    var id = responseObject?.clientId;
+                    return Redirect($"http://localhost:3000/call?response_type=authorization&id={id}&token={token}");
                 }
                 else
                 {

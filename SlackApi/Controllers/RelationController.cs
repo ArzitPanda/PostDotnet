@@ -79,6 +79,25 @@ namespace SlackApi.Controllers
         }
 
 
+        [HttpPut]
+        public async  Task<IActionResult> UpdateRealtionById(long id,string type)
+        {
+
+            try
+            {
+                var relation = await _relationService.UpdateRelationById(id, type);
+                return Ok("sucessfully updated");
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+
+
+
 
 
     }

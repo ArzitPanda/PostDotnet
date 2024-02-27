@@ -10,5 +10,8 @@ namespace SlackApi.Services.RelationService
         Task<Relation> GetRelationById(long relationId);
         Task<IEnumerable<Relation>> GetRelationsBySenderId(long senderId);
         Task<IEnumerable<Relation>> GetRelationsByReceiverId(long receiverId);
+
+        Task<Relation> UpdateRelationById(long id, string type);
+
     }
 }

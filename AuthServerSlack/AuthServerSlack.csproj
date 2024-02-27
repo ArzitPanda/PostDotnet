@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SlackApi\SlackApi.csproj" />
+    <ProjectReference Include="..\SlackApi\SocialTree.csproj" />
   </ItemGroup>
 
 </Project>

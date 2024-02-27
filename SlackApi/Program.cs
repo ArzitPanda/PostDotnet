@@ -2,17 +2,20 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver;
 using SlackApi;
 using SlackApi.Data;
 using SlackApi.Data.Repository;
 using SlackApi.Data.Repository.SlackApi.Data.Repository;
 using SlackApi.Filter;
 using SlackApi.Services.AuthService;
+using SlackApi.Services.FeedService;
 using SlackApi.Services.PostService;
 using SlackApi.Services.RelationRequestService;
 using SlackApi.Services.RelationService;
 using SlackApi.Services.UserService;
 using SlackApi.Utils;
+using SocialTree.Services.LikeService;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
@@ -37,6 +40,20 @@ builder.Services.AddSwaggerGen((options) =>
 });
 
 
+
+
+builder.Services.AddCors((options) => {
+
+
+    options.AddPolicy("AllowSpecificOrigins", builder => {
+
+        builder.WithOrigins("http://localhost:3000", "*").AllowAnyHeader().AllowAnyOrigin();
+
+    });
+
+
+
+});
 
 builder.Services.AddAuthentication((options) =>
 {
@@ -66,6 +83,9 @@ builder.Services.AddAuthentication((options) =>
 
 });
 
+
+
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<ImageUploadUtils>(provider =>
@@ -86,8 +106,9 @@ builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 builder.Services.AddScoped<IRelationRequestService,RelationRequestService>();
 builder.Services.AddScoped<IRelationalRepository,RelationalRepository>();
 builder.Services.AddScoped<IRelationService,RelationService>();
+builder.Services.AddScoped<IFeedService,FeedService>();
 
-
+builder.Services.AddScoped<ILikeService,LikeService>();
 
 
 builder.Services.AddDbContext<SlackDbContext>((options) => {
@@ -98,6 +119,11 @@ builder.Services.AddDbContext<SlackDbContext>((options) => {
 
 
 });
+
+
+builder.Services.AddSingleton<IMongoClient>(new MongoClient(builder.Configuration.GetConnectionString("MongoDb")));
+
+
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 builder.Services.AddHttpClient();
@@ -117,6 +143,7 @@ app.UseStaticFiles(
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseCors("AllowSpecificOrigins");
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.MapControllers();
 

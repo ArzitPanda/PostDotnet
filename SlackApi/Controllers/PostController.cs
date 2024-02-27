@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SlackApi.Controllers
 {
-    [Authorize]
+   
     [ApiController]
     [Route("api/[controller]")]
     public class PostController : ControllerBase

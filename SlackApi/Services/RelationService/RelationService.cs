@@ -67,6 +67,17 @@ namespace SlackApi.Services.RelationService
             return await _unitOfWork1.RelationRepository.Find(r => r.UserId1 == receiverId);
         }
 
+        public async Task<Relation> UpdateRelationById(long id, string type)
+        {
+            Relation r = (await _unitOfWork1.RelationRepository.Find(a => a.RelationId == id)).FirstOrDefault() ?? throw new NullReferenceException();
 
+            r.RelationType = type;
+
+                 await   _unitOfWork1.RelationRepository.Update(r);
+            return r;
+
+
+
+        }
     }
 }
