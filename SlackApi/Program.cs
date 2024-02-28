@@ -15,6 +15,7 @@ using SlackApi.Services.RelationRequestService;
 using SlackApi.Services.RelationService;
 using SlackApi.Services.UserService;
 using SlackApi.Utils;
+using SocialTree.Services.CommentService;
 using SocialTree.Services.LikeService;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
@@ -110,7 +111,7 @@ builder.Services.AddScoped<IFeedService,FeedService>();
 
 builder.Services.AddScoped<ILikeService,LikeService>();
 
-
+builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddDbContext<SlackDbContext>((options) => {
 
 

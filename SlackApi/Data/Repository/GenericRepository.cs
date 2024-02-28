@@ -29,6 +29,19 @@
                 return await _dbSet.Where(expression).ToListAsync();
             }
 
+            public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes)
+            {
+                IQueryable<T> query = _dbSet.Where(expression);
+
+                // Apply includes
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+
+                return await query.ToListAsync();
+            }
+
             public async Task<T> Insert(T entity)
             {
                 _dbSet.Add(entity);

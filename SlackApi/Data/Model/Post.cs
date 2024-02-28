@@ -7,6 +7,7 @@
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; }
 
+        public string ImgUrl { get; set; } =string.Empty;
         public string[]  Visibility {  get; set; } 
         public long AuthorId { get; set; }
         public User Author { get; set; }    

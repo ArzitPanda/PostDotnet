@@ -79,5 +79,15 @@ namespace SlackApi.Services.RelationService
 
 
         }
+
+        public async Task<Relation> GetRelationByBothId(long userID1, long userID2)
+        {
+
+           var r = await  _unitOfWork1.RelationRepository.Find(A => (A.UserId1 == userID1 && A.UserId2 == userID2) || (A.UserId2 == userID1 && A.UserId1 == userID2));
+            Relation data = r.FirstOrDefault();
+
+            return data;
+
+        }
     }
 }

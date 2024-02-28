@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SlackApi.Data.Dto.RequestDto;
+using SlackApi.Data.Model;
 using SlackApi.Services.RelationService;
 
 namespace SlackApi.Controllers
@@ -92,6 +93,25 @@ namespace SlackApi.Controllers
             {
                 return BadRequest(ex.Message);
             }
+
+        }
+
+
+        [HttpGet("users")]
+        public async Task<ActionResult<Relation>> GetRelationByBothId(long id1,long id2)
+        {
+
+
+            try
+            {
+                var relation = await _relationService.GetRelationByBothId(id1, id2);
+                return Ok(relation);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
 
         }
 

@@ -7,6 +7,11 @@ namespace SlackApi.Services.PostService
     {
         Task<IEnumerable<Post>> GetAllPosts();
         Task<Post> GetPostById(long id);
+
+       
+
+
+
         Task<IEnumerable<Post>> GetPostsByVisibilityOfPerson(long personId, string visibility);
         Task<IEnumerable<Post>> GetPostsOfPerson(long personId);
         Task<Post> AddPost(AddPostDto postDto);

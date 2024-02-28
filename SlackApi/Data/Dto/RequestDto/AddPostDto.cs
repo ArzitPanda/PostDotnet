@@ -10,7 +10,7 @@ namespace SlackApi.Data.Dto.RequestDto
         public string Description { get; set; }
 
 
-      
+        public IFormFile  Photo { get; set; }
         public string[] Visibility { get; set; }
         public long AuthorId { get; set; }
     }

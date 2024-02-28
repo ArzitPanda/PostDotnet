@@ -1,4 +1,6 @@
-﻿namespace SlackApi.Data.Model
+﻿using System.Text.Json.Serialization;
+
+namespace SlackApi.Data.Model
 {
     public class User
     {
@@ -11,11 +13,13 @@
         public string PhotoUrl { get; set; } = string.Empty;
 
         public DateTime DateOfBirth { get; set; }
-
+        [JsonIgnore]
         public ICollection<Relation> Relations { get; set; }
 
-        public ICollection<Post> Posts { get; set; }
 
+        [JsonIgnore]
+        public ICollection<Post> Posts { get; set; }
+        [JsonIgnore]
         public ICollection<RelationRequest> Requests { get; set; }
 
        

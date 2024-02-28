@@ -1,6 +1,7 @@
 ﻿using SlackApi.Data.Dto.RequestDto;
 using SlackApi.Data.Model;
 using SlackApi.Data.Repository;
+using SlackApi.Utils;
 
 namespace SlackApi.Services.PostService
 {
@@ -9,10 +10,13 @@ namespace SlackApi.Services.PostService
 
         private readonly IPostRepository _postRepository;
         private readonly IUserRepository _userRepository;
-        public PostService(IPostRepository postRepository,IUserRepository userRepository)
+        private readonly ImageUploadUtils _imageUploadUtils;
+        public PostService(IPostRepository postRepository,IUserRepository userRepository, ImageUploadUtils imageUploadUtils)
         {
             _postRepository = postRepository;
             _userRepository = userRepository;
+            _imageUploadUtils = imageUploadUtils;
+
         }
 
         public async Task<IEnumerable<Post>> GetAllPosts()
@@ -32,7 +36,7 @@ namespace SlackApi.Services.PostService
 
             var userQuery = await _userRepository.Find(a => a.UserId == postDto.AuthorId);
             var user  = userQuery.FirstOrDefault();
-
+            string photoUrl = _imageUploadUtils.UploadImage(postDto.Photo);
             var post = new Post
             {
                 Title = postDto.Title,
@@ -40,6 +44,7 @@ namespace SlackApi.Services.PostService
                 Visibility = postDto.Visibility,
                 AuthorId = postDto.AuthorId,
                 Author = user,
+                ImgUrl = photoUrl,
                 CreatedAt = DateTime.Now,
                 Comment = new List<Comment>()
             };
