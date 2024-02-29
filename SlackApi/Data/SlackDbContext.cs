@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SlackApi.Data.Model;
+using SocialTree.Data.Model;
 using Thread = SlackApi.Data.Model.Thread;
 
 namespace SlackApi.Data
@@ -25,8 +26,19 @@ namespace SlackApi.Data
 
         public DbSet<Thread>  Thread{ get; set; }
         public DbSet<UserPasswordManager> UserPasswordManagers { get; set; }
+
+        public DbSet<UserVerification> UserVerification { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+
+            modelBuilder.Entity<UserVerification>()
+    .HasOne(uv => uv.User)
+    .WithOne(u => u.UserVerification)
+    .HasForeignKey<UserVerification>(uv => uv.UserId);
+
             modelBuilder.Entity<Relation>()
                 .HasOne(r => r.User1)
                 .WithMany(u => u.Relations)

@@ -16,6 +16,7 @@ using SlackApi.Services.RelationService;
 using SlackApi.Services.UserService;
 using SlackApi.Utils;
 using SocialTree.Services.CommentService;
+using SocialTree.Services.ConverterService;
 using SocialTree.Services.LikeService;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
@@ -108,6 +109,8 @@ builder.Services.AddScoped<IRelationRequestService,RelationRequestService>();
 builder.Services.AddScoped<IRelationalRepository,RelationalRepository>();
 builder.Services.AddScoped<IRelationService,RelationService>();
 builder.Services.AddScoped<IFeedService,FeedService>();
+
+builder.Services.AddScoped<IConverter,Converter>();
 
 builder.Services.AddScoped<ILikeService,LikeService>();
 

@@ -2,6 +2,9 @@
 using SlackApi.Data.Model;
 using SlackApi.Data.Repository;
 using SlackApi.Utils;
+using SocialTree.Data.Dto.ResponseDto;
+using SocialTree.Services.ConverterService;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SlackApi.Services.PostService
 {
@@ -11,23 +14,38 @@ namespace SlackApi.Services.PostService
         private readonly IPostRepository _postRepository;
         private readonly IUserRepository _userRepository;
         private readonly ImageUploadUtils _imageUploadUtils;
-        public PostService(IPostRepository postRepository,IUserRepository userRepository, ImageUploadUtils imageUploadUtils)
+        private readonly IConverter _converter;
+        public PostService(IPostRepository postRepository,IUserRepository userRepository, ImageUploadUtils imageUploadUtils,IConverter converter)
         {
             _postRepository = postRepository;
             _userRepository = userRepository;
             _imageUploadUtils = imageUploadUtils;
+            _converter = converter;
 
         }
 
         public async Task<IEnumerable<Post>> GetAllPosts()
         {
-            return await _postRepository.GetAll();
+          var data = await _postRepository.GetAll();
+
+
+          
+
+
+
+            return data.ToList();
         }
 
-        public async Task<Post> GetPostById(long id)
+        public async Task<PostDto> GetPostById(long id)
         {
-           var res= await _postRepository.Find(p => p.Id == id);
-            return res.FirstOrDefault();
+           var res= await _postRepository.Find(p => p.Id == id,p=>p.Author);
+            
+            var post = res.FirstOrDefault();
+
+            return (await  _converter.postToPostDto(post));
+
+
+
         }
 
         public async Task<Post> AddPost(AddPostDto postDto)
@@ -89,14 +107,30 @@ namespace SlackApi.Services.PostService
             }
         }
 
-        public async Task<IEnumerable<Post>> GetPostsByVisibilityOfPerson(long personId, string visibility)
+        public async Task<IEnumerable<PostDto>> GetPostsByVisibilityOfPerson(long personId, string visibility)
         {
-            return await _postRepository.Find(p => p.AuthorId== personId && p.Visibility.Contains(visibility));
+          var DataOne = await _postRepository.Find(p => p.AuthorId== personId && p.Visibility.Contains(visibility), p => p.Author);
+
+
+            var postdatas = DataOne.Select(async x => { return (await _converter.postToPostDto(x)); });
+
+
+
+            return await Task.WhenAll(postdatas);
+
+
         }
 
-        public async Task<IEnumerable<Post>> GetPostsOfPerson(long personId)
+        public async Task<IEnumerable<PostDto>> GetPostsOfPerson(long personId)
         {
-            return await _postRepository.Find(p => p.AuthorId== personId);
+           var data = await _postRepository.Find(p => p.AuthorId == personId, p => p.Author);
+            var postdatas = data.Select(async x => { return (await _converter.postToPostDto(x)); });
+
+
+
+            return await Task.WhenAll(postdatas);
+
+           
         }
     }
 }

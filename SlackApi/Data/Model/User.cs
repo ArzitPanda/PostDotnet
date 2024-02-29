@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using SocialTree.Data.Model;
+using System.Text.Json.Serialization;
 
 namespace SlackApi.Data.Model
 {
@@ -22,9 +23,10 @@ namespace SlackApi.Data.Model
         [JsonIgnore]
         public ICollection<RelationRequest> Requests { get; set; }
 
-       
-       
-   
+
+
+        [JsonIgnore]
+        public UserVerification UserVerification { get; set; }
         
         public override string ToString()
         {

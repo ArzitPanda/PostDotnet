@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SlackApi.Data.Dto.RequestDto;
 using SlackApi.Data.Model;
 using SlackApi.Services.AuthService;
 using SlackApi.Services.UserService;
 using SlackApi.Utils;
+using SocialTree.Utils.Validator;
+
 using System.Net.Http;
 
 namespace SlackApi.Controllers
@@ -31,8 +34,29 @@ namespace SlackApi.Controllers
         {
             try
             {
-                var user = await _authService.SignUp(authDto);
-                return Ok(user);
+                var validator = new UserValidator();
+                ValidationResult result = validator.Validate(authDto);
+
+
+                if (result.IsValid)
+                {
+                    var user = await _authService.SignUp(authDto);
+                    return Ok(user);
+                }
+                else
+                {
+                    var errors = new List<string>();
+                    foreach (var failure in result.Errors)
+                    {
+                        errors.Add($"{failure.PropertyName}: {failure.ErrorMessage}");
+                    }
+
+                    return BadRequest(errors);
+                }
+
+
+
+               
             }
             catch (Exception ex)
             {

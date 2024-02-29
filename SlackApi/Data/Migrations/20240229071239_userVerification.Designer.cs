@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SlackApi.Data;
 
@@ -11,9 +12,11 @@ using SlackApi.Data;
 namespace SlackApi.Data.Migrations
 {
     [DbContext(typeof(SlackDbContext))]
-    partial class SlackDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240229071239_userVerification")]
+    partial class userVerification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

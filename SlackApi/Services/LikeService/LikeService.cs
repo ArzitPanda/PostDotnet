@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using SlackApi.Data.Repository;
 using SocialTree.Data.Model;
 
 namespace SocialTree.Services.LikeService
@@ -6,12 +7,14 @@ namespace SocialTree.Services.LikeService
     public class LikeService : ILikeService
     {
         private IMongoCollection<Like> _likeCollection;
+        private IUnitOfWork _unitOfWork;
 
-        public LikeService(IMongoClient mongo)
+        public LikeService(IMongoClient mongo,IUnitOfWork unitOfWork)
         {
             var database = mongo.GetDatabase("slack");
             _likeCollection = database.GetCollection<Like>("like");
 
+            _unitOfWork = unitOfWork;
            
         }
 
@@ -24,6 +27,14 @@ namespace SocialTree.Services.LikeService
 
 
             var existingLike = await _likeCollection.Find(l => l.userId == userId && l.postId == postId).FirstOrDefaultAsync();
+
+
+
+            var userQuery = await _unitOfWork.UserRepository.Find(a => a.UserId == userId);
+
+            var user = userQuery.FirstOrDefault();
+
+
             if (existingLike != null)
             {
                 // Like already exists, return existing like
@@ -34,6 +45,7 @@ namespace SocialTree.Services.LikeService
             {
                 userId = userId,
                 postId = postId,
+                Username =user.UserName,
                 CreatedAt = DateTime.UtcNow
             };
 
