@@ -6,6 +6,8 @@ namespace SocialTree.Services.ConverterService
     public interface IConverter
     {
         public Task<PostDto> postToPostDto(Post p);
+        public Task<PostDto> postToPostDto(Post p,long id);
+
 
     }
 }

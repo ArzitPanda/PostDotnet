@@ -21,12 +21,13 @@ namespace SlackApi.Controllers
         private readonly IAuthService _authService;
         private readonly IUserService _userService;
         private readonly HttpClient _httpClient;
-        public AuthController(IAuthService authService, IUserService userService, IHttpClientFactory httpClientFactory)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public AuthController(IAuthService authService, IUserService userService, IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
         {
             _authService = authService;
             _userService = userService;
             _httpClient = httpClientFactory.CreateClient();
-
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpPost("signup")]
@@ -56,7 +57,7 @@ namespace SlackApi.Controllers
 
 
 
-               
+
             }
             catch (Exception ex)
             {
@@ -106,13 +107,16 @@ namespace SlackApi.Controllers
                     // Read the response content
                     string responseBody = await response.Content.ReadAsStringAsync();
                     var responseObject = JsonConvert.DeserializeObject<dynamic>(responseBody);
-                  Console.WriteLine(responseBody);
-                    var token = responseObject?.token;
+                    Console.WriteLine(responseBody);
+                    string token = responseObject?.token;
                     var id = responseObject?.clientId;
+                    HttpContext.Session.SetString("JwtToken", token);
                     return Redirect($"http://localhost:3000/call?response_type=authorization&id={id}&token={token}");
                 }
                 else
                 {
+
+
                     // Handle the case where the request fails
                     return StatusCode((int)response.StatusCode, $"Error: {response.StatusCode} - {response.ReasonPhrase}");
                 }
@@ -124,14 +128,51 @@ namespace SlackApi.Controllers
             }
         }
 
-    
-
-
-        
 
 
 
 
+        [HttpPost("/store-token")]
+        public IActionResult StoreTokenInSession(string token)
+        {
 
+            HttpContext.Session.SetString("JwtToken", token);
+            return Ok();
+
+        }
+
+
+
+        [HttpGet("/get-token")]
+        public IActionResult GetTokenFromSession()
+        {
+            try
+            {
+                // Retrieve the JWT token from the session
+                var jwtToken = HttpContext.Session.GetString("JwtToken");
+
+                if (jwtToken != null)
+                {
+                    // Return the JWT token
+                    return Ok(new { token = jwtToken });
+                }
+                else
+                {
+                    // No token found in session
+                    return NotFound("Token not found in session");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that may occur
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
     }
+
+
+
+
+
+
 }

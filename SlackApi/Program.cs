@@ -49,12 +49,26 @@ builder.Services.AddCors((options) => {
 
     options.AddPolicy("AllowSpecificOrigins", builder => {
 
-        builder.WithOrigins("http://localhost:3000", "*").AllowAnyHeader().AllowAnyOrigin();
+        builder.WithOrigins( "http://localhost:5002").AllowAnyHeader().AllowAnyMethod() ;
 
     });
 
+   
 
 
+
+});
+
+
+
+builder.Services.AddCors((options) =>
+{
+    options.AddPolicy("FrontendAllow", builder =>
+    {
+
+        builder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowCredentials().AllowAnyMethod().SetIsOriginAllowed(hostName => true) ; 
+
+    });
 });
 
 builder.Services.AddAuthentication((options) =>
@@ -89,6 +103,8 @@ builder.Services.AddAuthentication((options) =>
 
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
 
 builder.Services.AddScoped<ImageUploadUtils>(provider =>
 {
@@ -144,10 +160,12 @@ app.UseStaticFiles(
     
     
     );
+app.UseSession();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 app.UseCors("AllowSpecificOrigins");
+app.UseCors("FrontendAllow");
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.MapControllers();
 

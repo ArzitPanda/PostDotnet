@@ -20,7 +20,7 @@ namespace AuthServerSlack.Controllers
             Console.WriteLine("here i am");
             string GenerateTokenIs = JwtTokenGenerator.GenerateToken(clientID, clientUserName);
 
-
+           
             GenerateJwtResponse g = new GenerateJwtResponse { ClientId = clientID, token = GenerateTokenIs };
 
 

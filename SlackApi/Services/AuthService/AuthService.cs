@@ -50,11 +50,7 @@ namespace SlackApi.Services.AuthService
 
             return user1;
 
-            
-            
-
-
-
+  
 
            
         }

@@ -3,11 +3,15 @@ import { configureStore } from '@reduxjs/toolkit'
 
 import {FeedReducer} from '@/store/Feed/FeedSlice'
 import ProfileReducer from './Profile/ProfileSlice'
+import { authReducer } from './Auth/AuthSlice'
+import { PostReducer } from './Post/PostSlice'
 
 export const store = configureStore({
     reducer: {
         feed: FeedReducer,
-        profile:ProfileReducer
+        profile:ProfileReducer,
+        auth:authReducer,
+        post:PostReducer,
       },
 })
 

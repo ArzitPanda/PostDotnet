@@ -5,6 +5,7 @@ import "./globals.css";
 import { UIProviders } from "./UIProvider";
 import { store } from '@/store'
 import { Provider } from 'react-redux'
+import { useEffect } from "react";
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -14,6 +15,23 @@ import { Provider } from 'react-redux'
 // };
 
 export default function RootLayout({children}: { children: React.ReactNode }) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <html lang="en" className='dark'>
       <body>

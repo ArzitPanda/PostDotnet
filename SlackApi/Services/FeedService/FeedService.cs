@@ -54,7 +54,7 @@ namespace SlackApi.Services.FeedService
             var posts = await _unitOfWork.PostRepository.Find(a=>userIds.Contains(a.AuthorId) && a.Visibility.Contains(Type),a=>a.Author);
 
 
-            var postDtos = posts.Select(async post => { return (await _converter.postToPostDto(post)); });
+            var postDtos = posts.Select(async post => { return (await _converter.postToPostDto(post, id)); });
 
 
             return await Task.WhenAll(postDtos);

@@ -2,9 +2,40 @@
 import React from "react";
 import {Card, CardHeader, CardBody, CardFooter, Avatar, Button} from "@nextui-org/react";
 import Link from "next/link";
+import { BsHeartFill } from "react-icons/bs";
+import { TiHeartFullOutline } from "react-icons/ti";
+import { IoHeartOutline, IoHeartSharp } from "react-icons/io5";
+import { useDispatch } from "react-redux";
+import { AddLikeToPost } from "@/store/Feed/FeedSlice";
 
-const CardCustom:React.FC<any>=({data})=> {
+const CardCustom:React.FC<any>=({data,pageIdx})=> {
   const [isFollowed, setIsFollowed] = React.useState(true);
+
+const dispatch = useDispatch();
+
+
+
+
+const handlelike =(id:any,pageIdx:any )=> {
+
+  const localId = localStorage.getItem('id');
+
+    dispatch<any>(AddLikeToPost({postId:id,postIndex:pageIdx,userId:localId}))
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
 
   return (
     <Card className="w-full">
@@ -12,10 +43,10 @@ const CardCustom:React.FC<any>=({data})=> {
         <div className="w-full">
           <Link href={`user/${data?.authorId}`} className="flex gap-5">
 
-          <Avatar isBordered radius="full" size="md" src={data?.author.photoUrl} />
+          <Avatar isBordered radius="full" size="md" src={data?.userPhotoUrl} />
           <div className="flex flex-col gap-1 items-start justify-center">
-            <h4 className="text-small font-semibold leading-none text-default-600">{data?.author.userName}</h4>
-            <h5 className="text-small tracking-tight text-default-400">{data?.author.userEmail}</h5>
+            <h4 className="text-small font-semibold leading-none text-default-600">{data?.userName}</h4>
+            
           </div>
           </Link>
         </div>
@@ -44,6 +75,19 @@ const CardCustom:React.FC<any>=({data})=> {
         </span>
       </CardBody>
       <CardFooter className="gap-3">
+          <div className="flex items-center justify-center">
+
+            {data?.isLiked ===true ? <IoHeartSharp size={20} color="yellow"/> : <IoHeartOutline size={20} onClick={()=>{handlelike(data.id,pageIdx)}}/>}
+
+
+
+
+
+
+          </div>
+
+
+
         <div className="flex gap-1">
           <p className="font-semibold text-default-400 text-small">4</p>
           <p className=" text-default-400 text-small">Following</p>

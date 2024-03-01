@@ -8,6 +8,9 @@ using SlackApi.Services.UserService;
 using SlackApi;
 using SlackApi.Services.RelationService;
 using SlackApi.Utils;
+using SocialTree.Services.ConverterService;
+using MongoDB.Driver;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +28,7 @@ builder.Services.AddScoped<IRelationRequestService, RelationRequestService>();
 builder.Services.AddScoped<IRelationalRepository, RelationalRepository>();
 builder.Services.AddScoped<IRelationService, RelationService>();
 builder.Services.AddHttpContextAccessor();
-
+builder.Services.AddScoped<IConverter, Converter>();
 builder.Services.AddScoped<ImageUploadUtils>(provider =>
 {
     var accessor = provider.GetRequiredService<IHttpContextAccessor>();
@@ -43,6 +46,7 @@ builder.Services.AddDbContext<SlackDbContext>((options) => {
 
 });
 
+builder.Services.AddSingleton<IMongoClient>(new MongoClient(builder.Configuration.GetConnectionString("MongoDb")));
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 

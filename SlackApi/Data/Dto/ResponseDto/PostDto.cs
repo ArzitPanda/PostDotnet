@@ -17,7 +17,7 @@ namespace SocialTree.Data.Dto.ResponseDto
         public string UserName { get; set; }
         public string UserPhotoUrl { get; set; }
 
-
+        public bool IsLiked { get; set; } =false;
 
         public long Likecount {  get; set; }
 
