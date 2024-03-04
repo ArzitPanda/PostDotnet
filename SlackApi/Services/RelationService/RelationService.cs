@@ -47,9 +47,9 @@ namespace SlackApi.Services.RelationService
             return await _unitOfWork1.RelationRepository.Insert(relation);
         }
 
-        public async Task<IEnumerable<Relation>> GetAllRelations()
+        public async Task<IQueryable<Relation>> GetAllRelations()
         {
-            return await _unitOfWork1.RelationRepository.GetAll();
+            return _unitOfWork1.RelationRepository.GetAll();
         }
 
         public async Task<Relation> GetRelationById(long relationId)

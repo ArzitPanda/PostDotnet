@@ -5,7 +5,7 @@ namespace SlackApi.Data.Repository
     public interface IGenericRepository<T> where T : class
     {
 
-        public Task<IEnumerable<T>> GetAll();
+        public IQueryable<T> GetAll();
 
         public Task<IEnumerable<T>> Find(Expression<Func<T, bool>> expression);
         Task<IEnumerable<T>> Find(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes);

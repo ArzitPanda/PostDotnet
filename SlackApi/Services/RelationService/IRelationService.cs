@@ -6,7 +6,7 @@ namespace SlackApi.Services.RelationService
     public interface IRelationService
     {
         Task<Relation> CreateRelation(RelationCreateDto relationDto);
-        Task<IEnumerable<Relation>> GetAllRelations();
+        Task<IQueryable<Relation>> GetAllRelations();
         Task<Relation> GetRelationById(long relationId);
         Task<Relation>  GetRelationByBothId(long userID1, long userID2);
         Task<IEnumerable<Relation>> GetRelationsBySenderId(long senderId);

@@ -1,9 +1,13 @@
-﻿using SlackApi.Data.Dto.RequestDto;
+﻿using MongoDB.Driver;
+using SlackApi.Data.Dto.RequestDto;
 using SlackApi.Data.Model;
 using SlackApi.Data.Repository;
 using SlackApi.Utils;
 using SocialTree.Data.Dto.ResponseDto;
+using SocialTree.Data.Model;
+using SocialTree.Data.Model.MongoModel;
 using SocialTree.Services.ConverterService;
+using SocialTree.Utils;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SlackApi.Services.PostService
@@ -14,9 +18,16 @@ namespace SlackApi.Services.PostService
         private readonly IPostRepository _postRepository;
         private readonly IUserRepository _userRepository;
         private readonly ImageUploadUtils _imageUploadUtils;
+        private readonly IMongoCollection<MPost> _postCollection;
         private readonly IConverter _converter;
-        public PostService(IPostRepository postRepository,IUserRepository userRepository, ImageUploadUtils imageUploadUtils,IConverter converter)
+        public PostService(IPostRepository postRepository,IUserRepository userRepository,IMongoClient mongo,ImageUploadUtils imageUploadUtils,IConverter converter)
         {
+
+
+
+
+            var database = mongo.GetDatabase("slack");
+            _postCollection = database.GetCollection<MPost>("Posts");
             _postRepository = postRepository;
             _userRepository = userRepository;
             _imageUploadUtils = imageUploadUtils;
@@ -24,16 +35,16 @@ namespace SlackApi.Services.PostService
 
         }
 
-        public async Task<IEnumerable<Post>> GetAllPosts()
+        public async Task<IQueryable<Post>> GetAllPosts()
         {
-          var data = await _postRepository.GetAll();
+          var data =  _postRepository.GetAll();
 
 
           
 
 
 
-            return data.ToList();
+            return data;
         }
 
         public async Task<PostDto> GetPostById(long id)
@@ -68,6 +79,22 @@ namespace SlackApi.Services.PostService
             };
 
            var data = await _postRepository.Insert(post);
+
+            if(postDto.Visibility.Contains("Public"))
+            {
+                List<string> text = new List<string>();
+                text.Add(postDto.Title+""+postDto.Description);
+
+                EmbeddingGenerator embedding = new EmbeddingGenerator();
+                 var embeddingResult =   await embedding.Method(text.ToArray());
+
+                MPost postEm = new MPost { Embeding
+                = embeddingResult,CreatedAt=DateTime.Now,postId=data.Id};
+
+               await  _postCollection.InsertOneAsync(postEm);
+
+            }
+
             return data;
         }
 

@@ -6,7 +6,7 @@ namespace SlackApi.Services.PostService
 {
     public interface IPostService
     {
-        Task<IEnumerable<Post>> GetAllPosts();
+        Task<IQueryable<Post>> GetAllPosts();
         Task<PostDto> GetPostById(long id);
 
        

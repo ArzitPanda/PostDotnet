@@ -8,7 +8,7 @@ namespace SlackApi.Services.UserService
         Task<User> CreateUser(UserCreateDto userDto);
         Task<bool> UpdateUser(UpdateUserDto updateUserDto);
         Task<bool> DeleteUser(long id);
-        Task<IEnumerable<User>> GetAllUsers();
+        Task<IQueryable<User>> GetAllUsers();
         Task<User> GetUserById(long id);
 
         Task<User> GetUserByUserName(string userName);  

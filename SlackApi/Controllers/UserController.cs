@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Microsoft.Extensions.Logging;
 using SlackApi.Data.Dto.RequestDto;
+using SlackApi.Data.Model;
 using SlackApi.Exceptions;
 using SlackApi.Services.UserService;
 using System.Threading.Tasks;
@@ -38,6 +40,21 @@ namespace SlackApi.Controllers
             var user = await _userService.CreateUser(userDto);
             return CreatedAtAction(nameof(GetUserById), new { id = user.UserId }, user);
         }
+
+
+
+        [EnableQuery]
+        [HttpGet]
+        public async Task<IQueryable<User>> GetAll()
+        {
+           var user = await _userService.GetAllUsers();
+
+            return user;
+        }
+
+
+
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(long id, UpdateUserDto updateUserDto)

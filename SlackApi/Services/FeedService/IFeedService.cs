@@ -11,6 +11,7 @@ namespace SlackApi.Services.FeedService
 
         public Task<IEnumerable<PostDto>> GetFeedByIdAndType(long id,string Type);
 
+        public Task<IEnumerable<Post>> GetFeedSuggestionById(long id);
         
 
 

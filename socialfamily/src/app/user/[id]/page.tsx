@@ -112,7 +112,7 @@ const dispatch  = useDispatch();
         </div>
 
 
-      <div className="absolute -top-48 lg:-top-64  w-screen h-screen -z-30">
+      <div className="absolute -top-96  lg:-top-64  w-screen h-screen -z-30">
         <Image
           src="http://localhost:3000/profilewave.svg"
           className="w-full h-screen object-cover "

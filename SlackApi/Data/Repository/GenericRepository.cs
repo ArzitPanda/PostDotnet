@@ -19,9 +19,9 @@
                 _dbSet = _dbContext.Set<T>();
             }
 
-            public async Task<IEnumerable<T>> GetAll()
+            public  IQueryable<T> GetAll()
             {
-                return await _dbSet.ToListAsync();
+                return  _dbSet.AsQueryable();
             }
 
             public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> expression)

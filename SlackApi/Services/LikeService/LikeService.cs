@@ -30,6 +30,7 @@ namespace SocialTree.Services.LikeService
 
 
 
+
             var userQuery = await _unitOfWork.UserRepository.Find(a => a.UserId == userId);
 
             var user = userQuery.FirstOrDefault();
@@ -46,7 +47,9 @@ namespace SocialTree.Services.LikeService
                 userId = userId,
                 postId = postId,
                 Username =user.UserName,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+             
+
             };
 
             await _likeCollection.InsertOneAsync(like);

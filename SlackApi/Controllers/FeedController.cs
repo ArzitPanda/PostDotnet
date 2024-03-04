@@ -29,6 +29,13 @@ namespace SlackApi.Controllers
 
         }
 
+        [HttpGet("suggestion")]
+        public async Task<IActionResult> Get(long id)
+        {
+            var posts = await _feedService.GetFeedSuggestionById(id);
+            return Ok(posts);
+        }
+
 
 
 

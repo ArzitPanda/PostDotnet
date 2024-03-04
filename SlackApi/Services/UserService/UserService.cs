@@ -44,9 +44,9 @@ namespace SlackApi.Services.UserService
         {
             return await _userRepository.Delete(id);
         }
-        public async Task<IEnumerable<User>> GetAllUsers()
+        public async Task<IQueryable<User>> GetAllUsers()
         {
-            return  await _userRepository.GetAll();
+            return  _userRepository.GetAll();
         }
 
         public async  Task<User> GetUserById(long id)

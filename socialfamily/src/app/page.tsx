@@ -172,7 +172,7 @@ const router = useRouter();
             <Button className="bg-yellow-400" onClick={handleOpen}>
               <FaCamera className="text-black" size={20} />
             </Button>
-            <Button className="bg-yellow-400">
+            <Button className="bg-yellow-400" onClick={()=>{router.push("/search")}}>
               <FaSearch className="text-black" size={20} />
             </Button>
           </ButtonGroup>
