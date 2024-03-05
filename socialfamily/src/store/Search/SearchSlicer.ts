@@ -26,7 +26,7 @@ export const searchByKeyWord = createAsyncThunk("search/people",async (params:{s
 
     const {search} = params;
 
-        const data =  await axios.get(BASE_URL+`/api/User?$filter=contains(userName,${search}) or contains(userEmail,${search})`);
+        const data =  await axios.get(BASE_URL+`/api/User?$filter=contains(userName,'${search}') or contains(userEmail,'${search}')`);
 
 
         return data.data;

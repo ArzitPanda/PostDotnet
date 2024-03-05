@@ -2,7 +2,9 @@
 import { RootState } from '@/store'
 import { searchByKeyWord } from '@/store/Search/SearchSlicer'
 import { Avatar, Card, CardBody, Image, Input } from '@nextui-org/react'
+import Link from 'next/link'
 import React, { useState } from 'react'
+import { CgNotifications } from 'react-icons/cg'
 import { useDispatch, useSelector } from 'react-redux'
 
 const page = () => {
@@ -91,7 +93,7 @@ const debounce = <F extends (...args: any[]) => void>(func: F, delay: number) =>
   // Function to handle search
   const handleSearch = debounce(() => {
     dispatch<any>(searchByKeyWord({ search }));
-  }, 500); // Adjust delay as needed (e.g., 500ms)
+  }, 1000); // Adjust delay as needed (e.g., 500ms)
 
   // Function to update search state
   const handleChange = (e:any) => {
@@ -110,6 +112,7 @@ const debounce = <F extends (...args: any[]) => void>(func: F, delay: number) =>
   return (
     <div className='w-full'>
             <div className='lg:w-8/12 w-full mx-auto grid grid-cols-5'>
+           
                 <div className='col-span-5 flex items-center justify-center my-6'>
                 <Image
               src="brand.png"
@@ -117,20 +120,22 @@ const debounce = <F extends (...args: any[]) => void>(func: F, delay: number) =>
               width={"40%"}
               className="invert object-contain h-full ml-12"
             />
-
+               
                 </div>
-                <Input type='text' placeholder='enter your search' className='col-span-6 mb-6 ' value={search} onChange={handleChange}/>
+                <Input type='text' placeholder='enter your search' className='col-span-6 mb-6 ' value={search} onChange={handleChange} variant='underlined'/>
                     <div className='flex flex-col gap-y-1 col-span-6 lg:col-span-3 '>
                     {
-                    photodata.map((ele)=>{return (  <Card className='w-full rounded-none border-1 border-gray-900'>
-                        <CardBody className='w-full grid grid-cols-10  items-center justify-center'>
+                    searchResult.profile?.map((ele)=>{return (  <Card className='w-full rounded-none border-1 border-gray-900'>
+                        <Link href={`/user/${ele.userId}`}>                        <CardBody className='w-full grid grid-cols-10  items-center justify-center'>
                             
-                            <Avatar   src={ele.img} isBordered className='col-span-2  md:col-span-1 '/>
+                            <Avatar   src={ele.photoUrl} isBordered className='col-span-2  md:col-span-1 '/>
                             <div className='flex flex-col h-full items-start justify-start col-span-8 lg:col-span-9'>
-                                <h4 className='text-lg font-semibold text-left'>{ele.name}</h4>
-                                <p className='text-sm font-extralight text-gray-500'>{ele.username}</p>
+                                <h4 className='text-lg font-semibold text-left'>{ele.userName}</h4>
+                                <p className='text-sm font-extralight text-gray-500'>{ele.userEmail}</p>
                             </div>
                         </CardBody>
+                        </Link>
+
                       </Card>)})
                     }
 
@@ -144,7 +149,7 @@ const debounce = <F extends (...args: any[]) => void>(func: F, delay: number) =>
             </div>
 
 
-
+       
     </div>
   )
 }

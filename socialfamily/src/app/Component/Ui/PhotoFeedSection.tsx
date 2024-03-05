@@ -1,7 +1,12 @@
+'use client'
 import { Image } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const PhotoFeedSection: React.FC<any> = ({ data }) => {
+
+const router  =useRouter();
+
   return (
     <div className="w-full col-span-3 grid grid-cols-3 gap-1">
       {data.map((ele: any, idx: any) => {

@@ -5,7 +5,7 @@ import { BiHeart, BiHeartSquare, BiShare } from 'react-icons/bi'
 
 const SmallRecomendUserCard = () => {
   return (
-    <Card shadow="sm"  isPressable onPress={() => console.log("item pressed")} className='col-span-4 '>
+    <div  className='col-span-4 '>
     <div className="overflow-visible p-0 w-full flex flex-row items-center justify-start gap-x-2">
       <Image
         shadow="sm"
@@ -24,14 +24,14 @@ const SmallRecomendUserCard = () => {
 
             <BiHeart color='white' size={20}/>
             <BiShare color='white' size={20}/>
-            <Button color='warning'>Share</Button>
+          
         </div>
    </div>
  
 
     </div>
  
-  </Card>
+  </div>
   )
 }
 
