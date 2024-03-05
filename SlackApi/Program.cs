@@ -71,7 +71,15 @@ builder.Services.AddSwaggerGen((options) =>
 });
 
 
+builder.Services.AddCors((options) =>
+{
+    options.AddPolicy("FrontendAllow", builder =>
+    {
 
+        builder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowCredentials().AllowAnyMethod();
+
+    });
+});
 
 builder.Services.AddCors((options) => {
 
@@ -90,15 +98,7 @@ builder.Services.AddCors((options) => {
 
 
 
-builder.Services.AddCors((options) =>
-{
-    options.AddPolicy("FrontendAllow", builder =>
-    {
 
-        builder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowCredentials().AllowAnyMethod().SetIsOriginAllowed(hostName => true) ; 
-
-    });
-});
 
 builder.Services.AddAuthentication((options) =>
 {
@@ -193,8 +193,9 @@ app.UseSession();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-app.UseCors("AllowSpecificOrigins");
 app.UseCors("FrontendAllow");
+app.UseCors("AllowSpecificOrigins");
+
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.MapControllers();
 

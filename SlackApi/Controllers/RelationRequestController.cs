@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SlackApi.Data.Dto.RequestDto;
+using SlackApi.Data.Model;
 using SlackApi.Services.RelationRequestService;
 using System;
 using System.Collections.Generic;
@@ -114,5 +115,27 @@ namespace SlackApi.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpGet("requestor/{id}/receiver/{receiverid}")]
+        public async Task<IActionResult> RelationRequestId(long id,long receiverid)
+        {
+
+            try
+            {
+                var relationRequests = await _relationRequestService.GetRelationRequestByReceiverAndRequestor(id,receiverid);
+                return Ok(relationRequests);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+
+
+        }
+
+
+
+
     }
 }

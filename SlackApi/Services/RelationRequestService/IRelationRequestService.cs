@@ -13,5 +13,7 @@ namespace SlackApi.Services.RelationRequestService
         Task<RelationRequest> GetRelationRequestById(long id);
         Task<bool> UpdateRelationRequest(UpdateRelationRequestDto requestDto);
         Task<bool> DeleteRelationRequest(long id);
+
+        Task<RelationRequest> GetRelationRequestByReceiverAndRequestor(long requestorId, long receiverId);
     }
 }

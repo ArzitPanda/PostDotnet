@@ -15,7 +15,7 @@ namespace SlackApi.Data.Model
 
         public string RelationShip {  get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
 
     }

@@ -105,6 +105,11 @@ namespace SlackApi.Controllers
             try
             {
                 var relation = await _relationService.GetRelationByBothId(id1, id2);
+                if(relation is null)
+                {
+                    return Ok("Not Found");
+                }
+
                 return Ok(relation);
             }
             catch (Exception ex)
