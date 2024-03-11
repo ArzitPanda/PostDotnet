@@ -5,6 +5,7 @@ import {
   Button,
   ButtonGroup,
   Image,
+  Modal,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -16,7 +17,7 @@ import NavbarCustom from "./Component/Ui/Navbar";
 import CardCustom from "./Component/Ui/Card";
 import { BiChat, BiHeartCircle, BiNotification } from "react-icons/bi";
 import SmallRecomendUserCard from "./Component/Ui/SmallRecomendUserCard";
-import { FaCamera, FaHome, FaSearch } from "react-icons/fa";
+import { FaCamera, FaHome, FaSearch, FaUserFriends } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { FEED_TYPE } from "@/Constant";
@@ -26,6 +27,7 @@ import { fetchFeed } from "@/store/Feed/FeedSlice";
 import UploadModal from "./Component/Ui/UploadModal";
 import { useRouter } from "next/navigation";
 import { CgNotifications } from "react-icons/cg";
+import { GiThreeFriends } from "react-icons/gi";
 
 export default function Home() {
   const data = [
@@ -55,9 +57,11 @@ export default function Home() {
   const state = useSelector((state: RootState) => state.feed);
   const auth = useSelector((state: RootState) => state.auth);
   console.log(state);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose,onOpenChange } = useDisclosure();
+ 
   const [userPhoto, setUserPhoto] = useState();
   const [userData, setUserData] = useState();
+  const [friendRequestModal,setFriendRequestModal] = useState(true);
 
   const [type, SetType] = useState(FEED_TYPE.PUBLIC);
   const router = useRouter();
@@ -150,6 +154,9 @@ export default function Home() {
                 </div>
               </div>)
               }
+
+              <FaUserFriends color="white" size={30} className="cursor-pointer mx-4" />
+
               
             </div>
           </div>
@@ -238,6 +245,7 @@ export default function Home() {
         })}
       </div>
       <UploadModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+      
     </main>
   );
 }

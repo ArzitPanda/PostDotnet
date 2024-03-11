@@ -14,22 +14,33 @@ namespace SlackApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly ILogger<UserController> _logger;
+      
 
-        public UserController(IUserService userService, ILogger<UserController> logger)
+        public UserController(IUserService userService)
         {
             _userService = userService;
-            _logger = logger;
+        
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(long id)
         {
           
+               try
+            {
                 var user = await _userService.GetUserById(id);
-               
 
+                if (user == null)
+                {
+                    return NotFound();
+                }
                 return Ok(user);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error occurred.");
+            }
           
           
         }
@@ -37,8 +48,15 @@ namespace SlackApi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser(UserCreateDto userDto)
         {
-            var user = await _userService.CreateUser(userDto);
-            return CreatedAtAction(nameof(GetUserById), new { id = user.UserId }, user);
+          try
+            {
+                var user = await _userService.CreateUser(userDto);
+                return CreatedAtAction(nameof(GetUserById), new { id = user.UserId }, user);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error occurred.");
+            }
         }
 
 

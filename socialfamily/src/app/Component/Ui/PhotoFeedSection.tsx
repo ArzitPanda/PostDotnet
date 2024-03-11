@@ -1,12 +1,13 @@
 'use client'
 import { Image } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
-const PhotoFeedSection: React.FC<any> = ({ data }) => {
+const PhotoFeedSection: React.FC<any> = ({ data,handleClickThumbnail,handleOpen }) => {
 
 const router  =useRouter();
-
+const [openPost,setOpenPost]=useState(false);
+const [postData,setPostData]=useState<any>();
   return (
     <div className="w-full col-span-3 grid grid-cols-3 gap-1">
       {data.map((ele: any, idx: any) => {
@@ -17,7 +18,7 @@ const router  =useRouter();
                 {String.fromCharCode(65 + idx)}
               </div>
             ) : (
-              <div className="col-span-1 aspect-square text-9xl flex items-center justify-center text-center font-bold text-black">
+              <div className="col-span-1 aspect-square text-9xl flex items-center justify-center text-center font-bold text-black" onClick={()=>{handleClickThumbnail(ele);handleOpen();}}>
                 <Image
                   src={ele.imgUrl}
                   alt={"image"}
@@ -36,7 +37,9 @@ const router  =useRouter();
           </div>
         );
       })}
-
+     
+   
+  
     </div>
   );
 };

@@ -30,6 +30,8 @@ namespace SlackApi.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
+     
+
         [HttpPost("signup")]
         public async Task<IActionResult> SignUp(UserAuthDto authDto)
         {

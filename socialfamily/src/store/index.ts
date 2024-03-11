@@ -6,6 +6,7 @@ import ProfileReducer from './Profile/ProfileSlice'
 import { authReducer } from './Auth/AuthSlice'
 import { PostReducer } from './Post/PostSlice'
 import { SerachReducer } from './Search/SearchSlicer'
+import { RequestReducer } from './Request/RequestSlice'
 
 export const store = configureStore({
     reducer: {
@@ -13,7 +14,8 @@ export const store = configureStore({
         profile:ProfileReducer,
         auth:authReducer,
         post:PostReducer,
-        serach:SerachReducer
+        serach:SerachReducer,
+        request:RequestReducer
       },
 })
 

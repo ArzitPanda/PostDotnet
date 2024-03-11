@@ -13,7 +13,7 @@ import {
   Tab,
   Tabs,
 } from "@nextui-org/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BiLeftArrowCircle,
   BiPhotoAlbum,
@@ -29,10 +29,12 @@ import { fetchProfile, profileActions } from "@/store/Profile/ProfileSlice";
 import { RiUserAddFill } from "react-icons/ri";
 import axios from "axios";
 import { BASE_URL } from "@/Constant";
+import PhotoViewer from "@/app/Component/PhotoViewer";
 
 const page: React.FC<any> = ({ params }) => {
   const profileId = params.id;
-
+  const [openPost,setOpenPost]=useState(false);
+  const [postData,setPostData]=useState<any>();
 
   const state = useSelector((state: RootState) => state.profile);
   let tabs = [
@@ -61,6 +63,19 @@ const page: React.FC<any> = ({ params }) => {
         "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
     },
   ];
+
+
+
+  const handleClose = () => {
+      setOpenPost(false);
+  }
+  const handleOpen = () => {
+    setOpenPost(true);
+    console.log(openPost,"handle open clicked");
+}
+
+  const handleClickThumbnail=(ele:any)=>{setPostData(ele);console.log(ele);console.log(postData,"postdata")}
+
 
 
 
@@ -202,12 +217,16 @@ const page: React.FC<any> = ({ params }) => {
           >
             {(item) => (
               <Tab key={item.id} title={item.title}>
-                <PhotoFeedSection data={state.posts} />
+                <PhotoFeedSection data={state.posts} handleClickThumbnail={handleClickThumbnail} handleOpen={handleOpen} />
               </Tab>
             )}
           </Tabs>
         </div>
       </div>
+
+      <PhotoViewer open={openPost} handleClose={handleClose} data={postData}  />
+
+
     </div>
   );
 };
